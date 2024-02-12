@@ -1,33 +1,19 @@
 import os
-from PIL import Image
 from models import load_vit_model
-import numpy as np
-from processing import preprocess, postprocess
-from loguru import logger
+from processing import preprocess
 import argparse
 
 os.environ["CUDA_VISIBLE_DEVICES"]="-1"
 
 class Inference:
-    def __init__(self, load_model_name=None):
-        logger.info("Loading Models")
+    def __init__(self):
         self.vit_model = load_vit_model()
 
     
-    def predict(self, model_name, image_path, postprocess_and_save=True):
+    def predict(self, model_name, image_path):
         X = preprocess(model_name, image_path)
-        
         y = self.vit_model.predict(X)[0][0]
-        
-        logger.info(f"Predicted angle is: {y} degree")
-        pred_angle = -y
-        if postprocess_and_save:
-            postprocess(image_path, pred_angle, 400)
         return y
-
-        
-        
-
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser()
