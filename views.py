@@ -18,7 +18,7 @@ def predict():
 
     file.save(input_path)
     
-    img = Image.open(input_path)
+    img = Image.open(input_path).convert('RGB')
 
     img = img.resize((400, 400))
 
